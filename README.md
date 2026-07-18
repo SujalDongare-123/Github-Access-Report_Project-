@@ -105,16 +105,42 @@ This application uses **GitHub Personal Access Token (PAT)** for secure authenti
 - **Audit trail**: GitHub logs all API calls made with the token
 - **Scalability**: Tokens have higher API rate limits than basic auth
 
-#### How to Create a Token
+#### How to Create a Fine-Grained Personal Access Token
 
-1. Go to [GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)](https://github.com/settings/tokens/new)
-2. Click "Generate new token" → "Generate new token (classic)"
-3. Name: `Github-Access-Report`
-4. Select scopes:
-   - ✅ `read:org` - Read organization and team membership
-   - ✅ `repo` - Full control of private repositories
-5. Click "Generate token"
-6. **Copy the token immediately** (you won't see it again)
+This project uses **Fine-grained Personal Access Tokens** for more granular permission control.
+
+1. Go to [GitHub Settings → Developer settings → Personal access tokens → Fine-grained tokens](https://github.com/settings/tokens?type=beta)
+2. Click "Generate new token"
+3. **Token name:** `Github-Access-Report`
+4. **Expiration:** Set as per your security policy (e.g., 90 days)
+5. **Repository access:** Select "All repositories" or specific repositories you want to analyze
+6. **Permissions:**
+   - ✅ Organization permissions:
+     - `Members` - Read access
+     - `Administration` - Read access (optional, for org settings)
+   - ✅ Repository permissions:
+     - `Contents` - Read access
+     - `Collaborators` - Read access
+7. Click "Generate token"
+8. **Copy the token immediately** (you won't see it again)
+
+**Why Fine-grained Tokens?**
+- ✅ More secure than classic tokens
+- ✅ Granular permission scopes
+- ✅ Shorter expiration options
+- ✅ Repository-level access control
+- ✅ Better audit trail in GitHub
+
+### Fine-grained Token Configuration Example
+
+Below is a screenshot showing the Fine-grained Personal Access Token configuration used for this project on the `sujal-development` organization:
+
+![Fine-grained Token Configuration](./docs/images/github-token-config.png)
+
+The token is configured with:
+- **Organization Access:** Read access to members of the `sujal-development` organization
+- **Repository Access:** Access to multiple sample repositories (employee-service, payment-service, inventory-service, user-service)
+- **Permissions:** Read access to repository contents and collaborator information
 
 #### Token Security Best Practices
 
@@ -328,7 +354,7 @@ GitHub API has rate limits:
 - For 1000+ users: Handled through pagination (30 users per page per repo)
 - With 5,000 request/hour limit: Can handle multiple report generations
 
-## 🛠️ Development
+## 📚 Development
 
 ### Build
 ```bash
@@ -344,6 +370,45 @@ mvn test
 1. Open project in IntelliJ IDEA or Eclipse
 2. Right-click project → Maven → Update Project
 3. Ensure Java 21 is selected as the project SDK
+
+## 🎯 Demo Organization
+
+This project was tested and demonstrated using a demo GitHub organization named **`sujal-development`** containing multiple sample repositories:
+
+- `employee-service` - Employee management repository
+- `payment-service` - Payment processing repository
+- `inventory-service` - Inventory management repository
+- `user-service` - User management repository
+
+This organization structure helps validate the application's ability to:
+- Fetch multiple repositories
+- Identify collaborators across different repositories
+- Generate comprehensive access reports
+
+**Note:** You can test this application with any GitHub organization you have access to. Update the `github.organization` configuration to point to your organization.
+
+## 🔍 API Documentation - Swagger UI
+
+The application includes interactive API documentation through Swagger UI. Once the application is running, you can access it at:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+### Swagger UI Screenshot
+
+Below is a screenshot of the Swagger UI showing all three API endpoints:
+
+![Swagger API Documentation](./docs/images/swagger-ui.png)
+
+The Swagger interface provides:
+- ✅ Visual documentation of all endpoints
+- ✅ Request/Response schema definitions
+- ✅ Try-it-out functionality to test endpoints directly
+- ✅ Parameter descriptions and examples
+- ✅ Response format visualization
+
+## 🛠️ Development
 
 ## 🔍 Assumptions
 
